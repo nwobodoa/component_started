@@ -1,26 +1,73 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div className='App'>
+    <div className="programs">
+      <label>Remaining UG Seats: {{ ugSeats }}</label>
+      <br>
+      <br>
+      <label>Remaining PG Seats: {{ pgSeats }}</label>
+      <br>
+      <br>
+
+    <label>Choose program:</label>
+    <select className="appDropDowns" v-model="program">
+      <option value="UG">Undergraduate</option>
+      <option value="PG">Postgraduate</option>
+    </select>
+  </div>
+    <div>
+      <EnrolmentForm :chosenProgram="program" 
+      :currentSeats="program === 'UG' ? ugSeats : pgSeats"
+      :setUpdatedSeats="setUpdatedSeats"
+      :setStudentDetail="setStudentDetail"/>
+    </div>    
+  <div>
+    <EnrolList :studentDetail="studentDetail" />
+  </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import './App.css';
+import EnrolmentForm from './components/EnrolmentForm.vue'
+import EnrolList from './components/EnrolList.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    EnrolmentForm,
+    EnrolList,
+  },
+
+  data() {
+    return {
+     program: "UG",
+     ugSeats: 60,
+     pgSeats: 40,
+     studentDetail:{}
+    };
+  },
+
+  methods: {
+    setStudentDetail(studentDetail){
+      this.studentDetail = studentDetail;      
+    },
+
+    setUpdatedSeats(updatedSeats){
+      if(this.program == 'UG'){
+        this.ugSeats = updatedSeats;
+      }else{
+        this.pgSeats = updatedSeats;
+      }
+    }
+  },
+
+  mounted() {
+
   }
+
+
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
